@@ -19,10 +19,13 @@ Model / Provider / Inputs / Reasoning / Context rows, followed by a
   Multimodal, Tool use — and the 0–100 normalization (percentile ranks across
   the whole catalog, capability fallbacks) are ported from the stats site's
   `compare-radar` implementation, so scores match the comparison pages.
+- Gateway-qualified model IDs from every provider are normalized before
+  matching (`anthropic/claude-fable-5.1`, `claude-fable-5-1@default`,
+  `us.anthropic.claude-fable-5`, … all resolve to the same catalog entry).
 - Hollow chart points mark fallback values (capability defaults) exactly like
-  the website.
-- Models without a catalog entry or without any benchmark keep the original
-  tooltip untouched.
+  the website. The chart renders whenever the model has any catalog data with
+  at least one real score; models with no data keep the original tooltip
+  untouched.
 
 ### Files
 
