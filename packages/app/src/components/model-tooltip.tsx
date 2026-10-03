@@ -1,5 +1,6 @@
 import { Show, type Component, type JSX } from "solid-js"
 import { useLanguage } from "@/context/language"
+import { ModelBenchmarkRadar } from "./model-benchmark-radar"
 
 type InputKey = "text" | "image" | "audio" | "video" | "pdf"
 type InputMap = Record<InputKey, boolean>
@@ -8,6 +9,7 @@ type ModelInfo = {
   id: string
   name: string
   provider: {
+    id: string
     name: string
   }
   capabilities?: {
@@ -95,7 +97,7 @@ export const ModelTooltip: Component<{ model: ModelInfo; latest?: boolean; free?
 
   if (props.v2) {
     return (
-      <div class="flex w-[180px] flex-col gap-2">
+      <div class="flex w-[224px] flex-col gap-2">
         <ModelTooltipRow name={language.t("model.tooltip.model")} value={name()} />
         <ModelTooltipRow name={language.t("model.tooltip.provider")} value={props.model.provider.name} />
         <Show when={inputs()}>
@@ -103,6 +105,7 @@ export const ModelTooltip: Component<{ model: ModelInfo; latest?: boolean; free?
         </Show>
         <ModelTooltipRow name={language.t("model.tooltip.reasoning")} value={reasoning()} />
         <ModelTooltipRow name={language.t("model.tooltip.context.label")} value={contextLimit()} />
+        <ModelBenchmarkRadar model={{ id: props.model.id, providerID: props.model.provider.id }} />
       </div>
     )
   }
