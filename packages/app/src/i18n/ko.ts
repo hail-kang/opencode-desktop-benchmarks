@@ -909,6 +909,7 @@ export const dict = {
   "model.tooltip.benchmark.axis.multimodal": "멀티모달",
   "model.tooltip.benchmark.axis.toolUse": "도구 사용",
   "model.tooltip.benchmark.score": "{{label}} {{score}}점 (100점 만점)",
+  "model.tooltip.benchmarks.fallback": "빈 점은 추정치입니다",
   "common.clear": "지우기",
   "session.child.promptDisabled": "하위 에이전트 세션에는 프롬프트를 입력할 수 없습니다.",
   "session.child.backToParent": "메인 세션으로 돌아가기.",

@@ -546,6 +546,11 @@ export const ModelBenchmarkRadar: Component<{ model: { id: string; providerID: s
             </For>
           </div>
         </div>
+        <Show when={scores().some((score) => score.fallback)}>
+          <div class="text-[10px] leading-3.5 text-v2-text-text-faint">
+            {language.t("model.tooltip.benchmarks.fallback")}
+          </div>
+        </Show>
       </div>
     </Show>
   )

@@ -241,6 +241,7 @@ export const dict = {
   "model.tooltip.benchmark.axis.multimodal": "Multimodal",
   "model.tooltip.benchmark.axis.toolUse": "Tool use",
   "model.tooltip.benchmark.score": "{{label}} {{score}} out of 100",
+  "model.tooltip.benchmarks.fallback": "Hollow points are fallback estimates",
 
   "common.search.placeholder": "Search",
   "common.goBack": "Navigate back",
