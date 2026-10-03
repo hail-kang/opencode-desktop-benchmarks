@@ -34,6 +34,8 @@ type CatalogEntry = {
   benchmarks: CatalogBenchmark[]
 }
 
+export type { CatalogEntry }
+
 export type BenchmarkAxisKey =
   | "model.tooltip.benchmark.axis.reasoning"
   | "model.tooltip.benchmark.axis.coding"
@@ -262,8 +264,22 @@ function statModel(model: string | undefined) {
   return value.length > MODEL_NAME_MAX_LENGTH ? "unknown" : value
 }
 
-function findCatalogEntry(entries: CatalogEntry[], model: string, lab?: string) {
-  const canonicalModel = statModel(model)
+// The app's model IDs come from many providers and gateways, so the same
+// catalog entry can appear as "claude-fable-5-1", "anthropic/claude-fable-5.1",
+// "claude-fable-5-1@default", or "us.anthropic.claude-fable-5". Normalize to the
+// plain model name before matching against the catalog.
+export function normalizeModelId(value: string) {
+  const aliased = statModel(value)
+  const leaf = aliased.split("/").at(-1) ?? aliased
+  const withoutVariant = leaf.split("@")[0]
+  return withoutVariant
+    .replace(/^~/, "")
+    .replace(/^(us|eu|global)\.anthropic\./, "")
+    .replace(/^anthropic[.-]/, "")
+}
+
+export function findCatalogEntry(entries: CatalogEntry[], model: string, lab?: string) {
+  const canonicalModel = normalizeModelId(model)
   const normalizedId = lab ? `${catalogLabSlug(lab)}/${catalogSlug(canonicalModel)}` : canonicalModel.trim().toLowerCase()
   const leaf = catalogSlug(canonicalModel)
   return (
@@ -488,7 +504,7 @@ export const ModelBenchmarkRadar: Component<{ model: { id: string; providerID: s
   )
 
   return (
-    <Show when={entry() && entry()!.benchmarks.length > 0}>
+    <Show when={scores().some((score) => !score.fallback)}>
       <div class="h-px bg-v2-border-border-muted" />
       <div class="flex flex-col gap-1.5">
         <div class="text-[11px] font-medium leading-4 text-v2-text-text-muted">
